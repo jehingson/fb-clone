@@ -4,8 +4,8 @@ module.exports = {
   images: {
     domains: [
       'jehingsonpernia.netlify.app',
-      'links.papareact.com'
-
+      'links.papareact.com',
+      'lh3.googleusercontent.com'
     ],
   },
 }

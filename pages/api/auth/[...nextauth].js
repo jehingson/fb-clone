@@ -1,14 +1,26 @@
 
 import NextAuth from "next-auth"
 import FacebookProvider from 'next-auth/providers/facebook'
-export default NextAuth({
+import GoogleProvider from "next-auth/providers/google"
 
+export default NextAuth({
+    session: {
+        jwt: true
+    },
     // Configure one or more authentication providers
     providers: [
         FacebookProvider({
-            clientId: '443486127437718',
-            clientSecret: '8ac10d91c557d1586cab043dda19bae4',
+            clientId: process.env.FACEBOOK_CLIENT_ID,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         }),
         // ...add more providers here
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET,
+        }),
     ],
+    pages: {
+        signIn: '/login'
+    },
+    database: process.env.DATABASE_URL
 })

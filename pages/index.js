@@ -1,14 +1,16 @@
-import { getSession } from 'next-auth/react'
+import { providers, getSession } from "next-auth/client"
 import Head from 'next/head'
+import Feed from "../components/Feed"
 import Header from '../components/Header'
 import Login from '../components/Login'
+import Sidebar from "../components/Sidebar"
+import Widgets from "../components/Widgets"
 import styles from '../styles/Home.module.css'
 
-export default function Home({ session }) {
-  console.log('session', session);
-  if (!session) return <Login />
+const Home = ({ session }) => {
+  console.log('eeee', session)
   return (
-    <div className={styles.container}>
+    <div >
       <Head>
         <title>Facebook</title>
       </Head>
@@ -17,23 +19,33 @@ export default function Home({ session }) {
 
       </Header>
 
-      <main>
+      <main className="flex">
         {/*SIDEBAR*/}
+        <Sidebar />
         {/*FEED*/}
+        <Feed />
         {/*WIDGETS*/}
+        <Widgets />
       </main>
     </div>
   )
 }
 
 
-export async function getServersSideProps(context) {
-  // Get the user
-  const session = await getSession(context)
+export default Home
 
-  return {
-    props: {
-      session
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
     }
   }
-} 
+
+  return {
+    props: { session }
+  }
+}
