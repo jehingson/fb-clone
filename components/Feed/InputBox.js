@@ -2,9 +2,11 @@ import { useSession } from "next-auth/client"
 import Image from "next/image";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
+import { useRef } from "react";
 
 export default function InputBox() {
     const [session] = useSession()
+    const inputRef = useRef(null)
 
     const sendPost = e => {
         e.preventDefault()
@@ -24,6 +26,7 @@ export default function InputBox() {
                     <input
                         className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
                         type="text"
+                        ref={inputRef}
                         placeholder={`¿Qué estás pensando, ${session && session.user.name}?`} />
                     <button hidden type="submit" onClick={sendPost}>Submit</button>
                 </form>
