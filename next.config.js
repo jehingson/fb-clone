@@ -5,7 +5,8 @@ module.exports = {
     domains: [
       'jehingsonpernia.netlify.app',
       'links.papareact.com',
-      'lh3.googleusercontent.com'
+      'lh3.googleusercontent.com',
+      'terrigen-cdn-dev.marvel.com'
     ],
   },
 }

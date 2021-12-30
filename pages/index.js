@@ -2,15 +2,12 @@ import { providers, getSession } from "next-auth/client"
 import Head from 'next/head'
 import Feed from "../components/Feed"
 import Header from '../components/Header'
-import Login from '../components/Login'
 import Sidebar from "../components/Sidebar"
-import Widgets from "../components/Widgets"
-import styles from '../styles/Home.module.css'
+import Widgets from "../components/Widgets/Widgets"
 
 const Home = ({ session }) => {
-  console.log('eeee', session)
   return (
-    <div >
+    <div className="h-screen bg-gray-100 overflow-hidden border">
       <Head>
         <title>Facebook</title>
       </Head>
@@ -30,7 +27,6 @@ const Home = ({ session }) => {
     </div>
   )
 }
-
 
 export default Home
 
