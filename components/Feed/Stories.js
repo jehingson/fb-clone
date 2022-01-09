@@ -30,8 +30,6 @@ const stories = [
 
 export default function Stories() {
 
-    console.log('eee', stories)
-
     return (
         <div className="flex justify-center space-x-3 mx-auto">
             {
