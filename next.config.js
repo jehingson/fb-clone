@@ -6,7 +6,8 @@ module.exports = {
       'jehingsonpernia.netlify.app',
       'links.papareact.com',
       'lh3.googleusercontent.com',
-      'terrigen-cdn-dev.marvel.com'
+      'terrigen-cdn-dev.marvel.com',
+      'firebasestorage.googleapis.com'
     ],
   },
 }

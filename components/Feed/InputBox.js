@@ -3,14 +3,13 @@ import Image from "next/image";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
 
 export default function InputBox() {
     const [session] = useSession()
     const inputRef = useRef(null)
     const filepickerRef = useRef(null)
     const [imagetoPost, setImageToPost] = useState(null)
-
 
 
     const sendPost = e => {
@@ -23,7 +22,20 @@ export default function InputBox() {
             image: session.user.image,
             timestamp: new Date()
         }).then(doc => {
-            
+            if (imagetoPost) {
+                const uploadTask = storage.ref(`posts/${doc.id}`).putString(imagetoPost, 'data_url')
+
+                removeImage()
+
+                uploadTask.on('state_change', null, error => console.error(error), () => {
+                    // when the upload completes
+                    storage.ref('posts').child(doc.id).getDownloadURL().then(url => {
+                        db.collection('posts').doc(doc.id).set({
+                            postImage: url
+                        }, { merge: true })
+                    })
+                })
+            }
         })
         inputRef.current.value = ""
     }
@@ -33,12 +45,10 @@ export default function InputBox() {
         if (e.target.files[0]) {
             render.readAsDataURL(e.target.files[0])
         }
-
         render.onload = (readerEvent) => {
             setImageToPost(readerEvent.target.result)
         }
 
-        console.log('image', imagetoPost)
     }
 
     const removeImage = () => {
@@ -65,7 +75,7 @@ export default function InputBox() {
                 </form>
                 {
                     imagetoPost && (
-                        <div onClick={removeImage} className="flex flex-col hover:brightness-110 transition duration-150 transform hover:scale-105 cursor:pointer">
+                        <div onClick={removeImage} className="flex flex-col hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer">
                             <img className="h-10 object-contain" src={imagetoPost} alt="" />
                             <p className="text-xs text-red-500 text-center ">Remove</p>
                         </div>
