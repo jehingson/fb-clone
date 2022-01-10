@@ -4,12 +4,15 @@ import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
 import { db, storage } from "../../firebase";
+import firebase from 'firebase'
+
 
 export default function InputBox() {
     const [session] = useSession()
     const inputRef = useRef(null)
     const filepickerRef = useRef(null)
     const [imagetoPost, setImageToPost] = useState(null)
+
 
 
     const sendPost = e => {
@@ -20,7 +23,7 @@ export default function InputBox() {
             name: session.user.name,
             email: session.user.email,
             image: session.user.image,
-            timestamp: new Date()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }).then(doc => {
             if (imagetoPost) {
                 const uploadTask = storage.ref(`posts/${doc.id}`).putString(imagetoPost, 'data_url')
